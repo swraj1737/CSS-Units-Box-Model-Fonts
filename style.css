@@ -1,39 +1,73 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+/* ----- reset and box-sizing ----- */
+/*
+  using border-box makes width/height include any padding or border,
+  which avoids surprises when sizing elements with viewport units later.
+*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-    height:100vh;
-    background:#f2f2f2;
+/*
+  make the html/body span the full viewport and use flexbox to
+  centre the .container both horizontally and vertically. that way
+  we avoid vertical margins that can trigger overflow and scrolling.
+*/
+html,
+body {
+    height: 100vh;            /* viewport height gives a reliable reference */
 }
 
-.container{
-
-    width:50vw;
-    height:80vh;
-    margin-left:25vw;
-    margin-right:25vw;
-    margin-top:10vh;
-    margin-bottom:10vh;
-    background:white;
-    border:1px solid #ddd;
+body {
+    /* instead of flex, use padding for vertical centering. padding is
+       included in height thanks to border-box on *, so the total remains
+       100vh (5vh top + 90vh container + 5vh bottom). */
+    padding: 5vh 0;
+    background: #f2f2f2;
+    font-family: 'Poppins', sans-serif;
 }
 
-.container img{
-    width:100%;
-    height:70vh;
-    display:block;
-    object-fit:cover;
+/* main box holds the image and button
+   width:50vw keeps it half the viewport wide and margin:auto will center it.
+   height:90vh so that the button (10vh) plus the image fill 90vh.
+   body padding of 5vh on top and bottom ensures the container sits
+   vertically in the middle without using flexbox or positioning.
+*/
+.container {
+    width: 50vw;
+    height: 90vh;            /* 90% of viewport height, leaving room for the button */
+    background: #fff;
+    margin: 0 auto;          /* horizontal centering */
 }
 
-button{
-    width:100%;
-    height:10vh;
-    border:none;
-    font-size:18px;
-    color:white;
-    cursor:pointer;
-    background:linear-gradient(to right,#f6b100,#37c837);
+/* the image takes the container height minus the button height
+   using calc() instead of flex since flexbox is not allowed.
+*/
+.container img {
+    width: 100%;
+    height: calc(100% - 10vh); /* remaining space after 10vh button */
+    object-fit: cover;
+    display: block;           /* removes inline spacing below images */
+}
+/* button is fixed at 10vh high so viewport units dictate its size
+   which keeps the layout proportional on different screen sizes.
+   adding transitions for smooth hover effects
+*/
+button {
+    width: 100%;
+    height: 10vh;             /* 10% of viewport height, consistent sizing */
+    border: none;
+    font-size: 1.1rem;
+    color: #fff;
+    cursor: pointer;
+    background: linear-gradient(to right, orange, limegreen);
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+}
+
+button:hover {
+    /* change colour, grow slightly, and add a shadow on hover */
+    background: linear-gradient(to right, #ff8800, #2ecc71);
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
 }
